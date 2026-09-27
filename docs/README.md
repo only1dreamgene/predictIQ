@@ -15,7 +15,7 @@ docs/
 ├── data-flow.md                 # Data flow documentation
 ├── deployment.md                # Deployment guide
 ├── secrets.md                   # Secrets management guide
-├── pr/                          # Pull request documentation
+├── pr/                          # Pull request working notes (ephemeral)
 └── runbooks/                    # Operational runbooks
 ```
 
@@ -62,9 +62,13 @@ Learn how to optimize gas usage in PredictIQ smart contracts:
 - **[Deployment Guide](./deployment.md)** - Deployment procedures and configuration
 - **[Secrets Management](./secrets.md)** - Secrets handling and configuration
 
-### Operations
+### Operations / Runbooks
 
-- **[Runbooks](./runbooks/)** - Operational runbooks for incident response
+- **[Runbooks](./runbooks/)** - Operational runbooks for incident response, including:
+  - [API Outage](./runbooks/api-outage.md)
+  - [Redis Failure](./runbooks/redis-failure.md)
+  - [Stellar RPC Unavailable](./runbooks/stellar-rpc-unavailable.md)
+  - [Service Down](./runbooks/service-down.md)
 
 ### Performance
 
@@ -77,6 +81,12 @@ Learn how to optimize gas usage in PredictIQ smart contracts:
 - **[Database Schema](../services/api/DATABASE.md)** - PostgreSQL schema and migration guide
 - **[Graceful Shutdown](../services/api/GRACEFUL_SHUTDOWN.md)** - Shutdown behaviour and configuration
 - **[Tracing](../services/api/TRACING.md)** - API service tracing configuration
+
+### Pull Request Working Notes
+
+- **[docs/pr/](./pr/)** and **[frontend/docs/pr/](../frontend/docs/pr/)** contain PR-specific working notes (design sketches, review context, temporary investigation notes).
+- **Purpose:** These are ephemeral working notes, not permanent documentation. They exist to support an in-flight or recently merged PR.
+- **Retention policy:** Working notes are retained only while the associated PR is open or recently merged, and are removed once their content has been folded into permanent docs (or is no longer relevant). Do not link to them as stable references.
 
 ## 🔍 Finding Documentation
 
@@ -114,6 +124,10 @@ Learn how to optimize gas usage in PredictIQ smart contracts:
 - [API Specification](./API_SPEC.md)
 - [API Versioning](./api-versioning.md)
 - [Database Schema](../services/api/DATABASE.md)
+
+**Incident Response:**
+- [Runbooks](./runbooks/)
+- [Rollback Guide](../infrastructure/ROLLBACK.md)
 
 ## 🤝 Contributing to Documentation
 
