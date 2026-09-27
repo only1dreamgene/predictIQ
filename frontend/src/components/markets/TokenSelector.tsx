@@ -123,6 +123,7 @@ export function TokenSelector({ id, value, onChange, ...aria }: TokenSelectorPro
       {open && (
         <ul id={`${id}-listbox`} role="listbox" className="token-selector__list">
           {filtered.length === 0 && <li className="token-selector__empty">{t('tokenSelector.noMatching')}</li>}
+          {filtered.map((asset) => (
           {filtered.map((asset, index) => (
             <li key={asset.id}>
               <button

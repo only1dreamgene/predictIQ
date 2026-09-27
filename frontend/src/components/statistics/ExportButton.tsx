@@ -1,3 +1,4 @@
+import React from 'react';
 import React, { useState } from 'react';
 import { useI18n } from '../../lib/hooks/useI18n';
 import './ExportButton.css';
@@ -95,6 +96,14 @@ export const ExportButton: React.FC<ExportButtonProps> = ({ sections, filenamePr
   };
 
   return (
+    <div className="export-button-group" role="group" aria-label={t('exportButton.groupAriaLabel')}>
+      <button type="button" className="export-button" onClick={handleExportCsv} disabled={isDisabled}>
+        {t('exportButton.exportCsv')}
+      </button>
+      <button type="button" className="export-button" onClick={handleExportJson} disabled={isDisabled}>
+        {t('exportButton.exportJson')}
+      </button>
+    </div>
     <>
       <div
         className="sr-only"

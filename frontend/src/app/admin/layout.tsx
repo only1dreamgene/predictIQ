@@ -79,6 +79,7 @@ function AdminAuthGate({ children }: { children: React.ReactNode }) {
             disabled={isLoading}
           />
         </label>
+        <button type="submit">{t('admin.continue')}</button>
         {error && <div className="admin-auth-error">{error}</div>}
         <button type="submit" disabled={isLoading}>
           {isLoading ? 'Validating...' : t('admin.continue')}
@@ -145,6 +146,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
 
             <nav className="admin-nav" aria-label={t('admin.subNav')}>
+              {navItems.map((item) => {
+                const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`admin-nav-link ${isActive ? 'active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
               {navItems.map((item) => (
                 <AdminNavLink key={item.href} href={item.href} label={item.label} />
               ))}

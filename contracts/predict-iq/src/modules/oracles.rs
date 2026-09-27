@@ -283,29 +283,32 @@ pub fn validate_consensus(
         return Err(ErrorCode::OracleFailure);
     }
 
-    // Count votes for each outcome
+    // Count votes for each outcome.
+    // Fix #1539: iterate by actual (oracle_index, outcome) pairs via Map::iter()
+    // instead of a synthetic positional index. Map::get(i) is a key lookup, not
+    // positional — with non-contiguous oracle indices the old loop silently
+    // skipped entries whose key didn't match the loop counter.
     let mut outcome_votes: Map<u32, u32> = Map::new(e);
-    let mut i = 0u32;
-    while i < responses.len() {
-        if let Some(outcome) = responses.get(i) {
-            let count = outcome_votes.get(outcome).unwrap_or(0);
-            outcome_votes.set(outcome, count + 1);
-        }
-        i += 1;
+    for (_oracle_index, outcome) in responses.iter() {
+        let votes = outcome_votes.get(outcome).unwrap_or(0);
+        outcome_votes.set(outcome, votes + 1);
     }
 
-    // Find the outcome with the most votes
-    let mut winning_outcome = 0u32;
+    // Find outcome with most votes (quorum).
+    // Fix #1539: iterate outcome_votes by actual (outcome_id, vote_count) pairs.
+    // The old loop used outcome_votes.get(i) which probes key i, not position i,
+    // so non-contiguous outcome IDs (e.g. outcomes 0 and 2 with len==2) would
+    // never check key 2 — its votes were silently ignored.
+    let mut consensus_outcome: Option<u32> = None;
     let mut max_votes = 0u32;
-    let mut j = 0u32;
-    while j < outcome_votes.len() {
-        if let Some(count) = outcome_votes.get(j) {
-            if count > max_votes {
-                max_votes = count;
-                winning_outcome = j;
-            }
+    for (outcome_id, votes) in outcome_votes.iter() {
+        if votes > max_votes {
+            max_votes = votes;
+            consensus_outcome = Some(outcome_id);
         }
-        j += 1;
+    }
+
+    let winning_outcome = consensus_outcome.ok_or(ErrorCode::OracleFailure)?;
     }
 
     Ok(winning_outcome)
